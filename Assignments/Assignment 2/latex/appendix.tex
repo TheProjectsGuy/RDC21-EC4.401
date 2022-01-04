@@ -1,0 +1,106 @@
+% !TeX root = main.tex
+
+\section{Appendix}
+
+\subsection[A1.1: Code]{Answer 1.1: Code for Euler Angles to Rotation Matrix}
+
+\label{app:a1.1-eu2rm-code}
+
+The function \texttt{euzyx\_to\_rotm} below converts ZYX Euler angles to $SO(3)$ rotation matrix
+
+\lstinputlisting[language=python]{../python/ans_1_1.py}
+
+\subsection[A1.2: Code]{Answer 1.2: Code for Rotation Matrix to Euler Angles}
+
+\label{app:a1.2-rm2eu-code}
+
+The function \texttt{rotm\_to\_euzyx} below converts an $SO(3)$ rotation matrix to ZYX Euler angles
+
+\lstinputlisting[language=python]{../python/ans_1_2.py}
+
+\subsection[A2.2: Codes]{Answer 2.2: Codes pertaining to the 3R manipulator}
+
+\subsubsection{Forward Kinematics}
+\label{app:a2.2-fk-code}
+
+The code to generate the position of each joint as well as end effector is given below. The function \texttt{jfk\_min\_3r} calculates and returns the $(x, y, \theta)$ values of joint 2, joint 3 and the end effector. 
+
+The function \texttt{min\_to\_se2} converts the $(x, y, \theta)$ values to a $3,3$ homogeneous SE(2) transformation matrix.
+
+\lstinputlisting[language=python]{../python/fk_3r.py}
+
+\subsubsection{Dexterous and Reachable Workspace}
+\label{app:a2.2-ws-dws-show-code}
+
+The code below shows the \emph{reachable} and \emph{dexterous} workspace.
+
+\lstinputlisting[language=python]{../python/show_ws_dws.py}
+
+This code produces different sub-figures in Figure \ref{fig:3r-ws-dws}. To change the manipulator orientation, set different joint angles (as captioned in the sub-figures).
+
+\subsubsection{Interactive FK}
+\label{app:a2.2-3r-fk-interactive}
+
+The code below allows one to run forward kinematics in an interactive manner
+
+\lstinputlisting[language=python]{../python/animation_3r.py}
+
+
+\subsection[A3.2: Code]{Answer 3.2: Axis-angle and Rotation Matrix conversions}
+\label{app:a3.2-axang-rotm-conv-code}
+
+The function \texttt{rotm\_to\_axang} in the code below converts a $3, 3$ rotation matrix to axis and angle form. The function \texttt{axang\_to\_rotm} in the code below does the opposite (converts axis and angle form to a rotation matrix).
+
+\lstinputlisting[language=python]{../python/axang_conversions.py}
+
+\subsection[A4.2: Code]{Answer 4.2: Code for DH Parameters of a 7R robot}
+\label{app:a4.2-dh-params-7r-code}
+
+The function \texttt{DH\_tf} in the code below returns a transformation matrix given the four DH parameters.
+
+\lstinputlisting[language=python]{../python/dh_solver_7r.py}
+
+The variable \texttt{home\_pose\_7} and \texttt{home\_pose\_8} contains the home pose of frames $\{7\}$ and $\{8\}$ respectively.
+
+\subsubsection*{Rotation Matrix elements}
+
+Using the shorthand notation $c_\theta = \cos(\theta)$, $s_\theta = \sin(\theta)$, we get the following values for elements in the rotation matrix. These are for equation \ref{eq:dh-tooltip-matrices}.
+
+\begin{equation}
+    \begin{split}
+        r_{11} =& c_{7} \left(c_{6} \left(c_{5} \left(c_{1} s_{2} s_{4} - c_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right) + s_{5} \left(c_{1} c_{2} s_{3} + c_{3} s_{1}\right)\right) + s_{6} \left(c_{1} c_{4} s_{2} + s_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right)\right) \\
+            &+ s_{7} \left(c_{5} \left(c_{1} c_{2} s_{3} + c_{3} s_{1}\right) - s_{5} \left(c_{1} s_{2} s_{4} - c_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right)\right) \\
+        r_{12} =& c_{7} \left(c_{5} \left(c_{1} c_{2} s_{3} + c_{3} s_{1}\right) - s_{5} \left(c_{1} s_{2} s_{4} - c_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right)\right) \\
+            &- s_{7} \left(c_{6} \left(c_{5} \left(c_{1} s_{2} s_{4} - c_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right) + s_{5} \left(c_{1} c_{2} s_{3} + c_{3} s_{1}\right)\right) + s_{6} \left(c_{1} c_{4} s_{2} + s_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right)\right) \\
+        r_{13} =& - c_{6} \left(c_{1} c_{4} s_{2} + s_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right) + s_{6} \left(c_{5} \left(c_{1} s_{2} s_{4} - c_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right) + s_{5} \left(c_{1} c_{2} s_{3} + c_{3} s_{1}\right)\right) \\
+        \\
+        r_{21} =& - c_{7} \left(c_{6} \left(c_{5} \left(c_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right) - s_{1} s_{2} s_{4}\right) + s_{5} \left(c_{1} c_{3} - c_{2} s_{1} s_{3}\right)\right) - s_{6} \left(c_{4} s_{1} s_{2} + s_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right)\right)\right) \\
+            &- s_{7} \left(c_{5} \left(c_{1} c_{3} - c_{2} s_{1} s_{3}\right) - s_{5} \left(c_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right) - s_{1} s_{2} s_{4}\right)\right) \\
+        r_{22} =& - c_{7} \left(c_{5} \left(c_{1} c_{3} - c_{2} s_{1} s_{3}\right) - s_{5} \left(c_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right) - s_{1} s_{2} s_{4}\right)\right) \\
+            &+ s_{7} \left(c_{6} \left(c_{5} \left(c_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right) - s_{1} s_{2} s_{4}\right) + s_{5} \left(c_{1} c_{3} - c_{2} s_{1} s_{3}\right)\right) - s_{6} \left(c_{4} s_{1} s_{2} + s_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right)\right)\right) \\
+        r_{23} =& - c_{6} \left(c_{4} s_{1} s_{2} + s_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right)\right) - s_{6} \left(c_{5} \left(c_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right) - s_{1} s_{2} s_{4}\right) + s_{5} \left(c_{1} c_{3} - c_{2} s_{1} s_{3}\right)\right) \\
+        \\
+        r_{31} =& - c_{7} \left(c_{6} \left(c_{5} \left(c_{2} s_{4} + c_{3} c_{4} s_{2}\right) - s_{2} s_{3} s_{5}\right) + s_{6} \left(c_{2} c_{4} - c_{3} s_{2} s_{4}\right)\right) + s_{7} \left(c_{5} s_{2} s_{3} + s_{5} \left(c_{2} s_{4} + c_{3} c_{4} s_{2}\right)\right) \\
+        r_{32} =& c_{7} \left(c_{5} s_{2} s_{3} + s_{5} \left(c_{2} s_{4} + c_{3} c_{4} s_{2}\right)\right) + s_{7} \left(c_{6} \left(c_{5} \left(c_{2} s_{4} + c_{3} c_{4} s_{2}\right) - s_{2} s_{3} s_{5}\right) + s_{6} \left(c_{2} c_{4} - c_{3} s_{2} s_{4}\right)\right) \\
+        r_{33} =& c_{6} \left(c_{2} c_{4} - c_{3} s_{2} s_{4}\right) - s_{6} \left(c_{5} \left(c_{2} s_{4} + c_{3} c_{4} s_{2}\right) - s_{2} s_{3} s_{5}\right)
+    \end{split}
+    \label{eq:app-7r-tf-rot-vals}
+\end{equation}
+
+\subsubsection*{Tooltip transformation matrix elements}
+
+These are for equation \ref{eq:dh-tooltip-matrices}.
+
+\begin{equation}
+    \begin{split}
+        t_x =& - L_{2} c_{1} s_{2} - L_{3} \left(c_{1} c_{4} s_{2} + s_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right) \\
+            &- L_{4} \left(c_{6} \left(c_{1} c_{4} s_{2} + s_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right) - s_{6} \left(c_{5} \left(c_{1} s_{2} s_{4} - c_{4} \left(c_{1} c_{2} c_{3} - s_{1} s_{3}\right)\right) + s_{5} \left(c_{1} c_{2} s_{3} + c_{3} s_{1}\right)\right)\right) \\
+        \\
+        t_y =& - L_{2} s_{1} s_{2} - L_{3} \left(c_{4} s_{1} s_{2} + s_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right)\right) \\
+            &- L_{4} \left(c_{6} \left(c_{4} s_{1} s_{2} + s_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right)\right) + s_{6} \left(c_{5} \left(c_{4} \left(c_{1} s_{3} + c_{2} c_{3} s_{1}\right) - s_{1} s_{2} s_{4}\right) + s_{5} \left(c_{1} c_{3} - c_{2} s_{1} s_{3}\right)\right)\right) \\
+        \\
+        t_z =& L_{1} + L_{2} c_{2} + L_{3} \left(c_{2} c_{4} - c_{3} s_{2} s_{4}\right) + L_{4} \left(c_{6} \left(c_{2} c_{4} - c_{3} s_{2} s_{4}\right) - s_{6} \left(c_{5} \left(c_{2} s_{4} + c_{3} c_{4} s_{2}\right) - s_{2} s_{3} s_{5}\right)\right)
+    \end{split}
+    \label{eq:app-7r-tooltip-tf-trans-vals}
+\end{equation}
+

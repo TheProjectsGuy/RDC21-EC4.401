@@ -1,0 +1,115 @@
+% !TeX root = main.tex
+
+\section[A3: Axis-angle and SO(3)]{Axis angle convention}
+
+\subsection*{Axis-angle to Rotation Matrix}
+
+The rotation matrix, in terms of the Axis-angle convention is given by
+
+\begin{equation}
+    \mathbf{R} = \mathbf{I} + (\sin(\theta)) \left [ \mathbf{\hat{n}} \right ]_{\times} + (1-\cos(\theta)) \left [ \mathbf{\hat{n}} \right ]_{\times}^{2}
+\end{equation}
+
+Where $\theta$ is the angle of rotation about unit axis $\mathbf{\hat{n}}$ (that is, $n_x^2 + n_y^2 + n_z^2 = 1$). The $\left [ \mathbf{\hat{n}} \right ]_{\times}$ is the cross product matrix given by
+
+\begin{align}
+    \mathbf{\hat{n}} = \begin{bmatrix}
+        n_x \\ n_y \\ n_z
+        \end{bmatrix} &&
+    \left [ \mathbf{\hat{n}} \right ]_{\times} = \begin{bmatrix}
+        0 & -n_z & n_y \\
+        n_z & 0 & -n_x \\
+        -n_y & n_x & 0
+        \end{bmatrix} &&
+    \left [ \mathbf{\hat{n}} \right ]_{\times}^{2} = \begin{bmatrix}
+        -n_z^2-n_y^2 & n_x n_y & n_x n_z \\
+        n_y n_x & -n_x^2-n_z^2 & n_y n_z \\
+        n_z n_x & n_z n_y & -n_y^2-n_x^2
+        \end{bmatrix}
+\end{align}
+
+Substituting this to get $\mathbf{R}$ in the equations above, we get
+
+\begin{align}
+    \mathbf{R} &= \mathbf{I} + (\sin(\theta)) \left [ \mathbf{\hat{n}} \right ]_{\times} + (1-\cos(\theta)) \left [ \mathbf{\hat{n}} \right ]_{\times}^{2} 
+    \label{eq:axang-to-rot-matrix}
+    \\
+    &= \begin{bmatrix}
+        1 + (1-\cos(\theta)) (n_x^2 - 1) & -n_z \sin(\theta) + (1-\cos(\theta)) n_x n_y & n_y \sin(\theta) + (1-\cos(\theta)) n_x n_z \\
+        n_z \sin(\theta) + (1-\cos(\theta)) n_y n_x & 1 + (1-\cos(\theta))(n_y^2 - 1) & -n_x \sin(\theta) + (1-\cos(\theta)) n_y n_z \\
+        -n_y \sin(\theta) + (1-\cos(\theta)) n_z n_x & n_x \sin(\theta) + (1-\cos(\theta)) n_z n_y & 1 + (1-\cos(\theta)) (n_z^2 - 1)
+        \end{bmatrix} \nonumber
+\end{align}
+
+\subsection[A3.1: SO(3) to Axis-angle]{Converting Rotation Matrix to Axis Angle}
+
+To convert rotation matrix to axis-angle numbers (that is, to get $\mathbf{n}$ and $\theta$ from $\mathbf{R}$), we can refer to the equation \ref{eq:axang-to-rot-matrix} and backtrack. We get the following equations
+
+\begin{align}
+    \mathbf{R} = \begin{bmatrix}
+        r_{11} & r_{12} & r_{13} \\
+        r_{21} & r_{22} & r_{23} \\
+        r_{31} & r_{32} & r_{33} \\
+        \end{bmatrix} &&
+    \theta = \arccos \left ( \frac{r_{11} + r_{22} + r_{33} - 1}{2} \right ) &&
+    \mathbf{n} = \begin{bmatrix}
+        n_x \\ n_y \\ n_z
+        \end{bmatrix} = \frac{1}{2\sin(\theta)} \begin{bmatrix}
+        r_{32} - r_{23} \\
+        r_{13} - r_{31} \\
+        r_{21} - r_{12}
+        \end{bmatrix}
+    \label{eq:rot-matrix-to-axang}
+\end{align}
+
+\subsubsection*{Validating $\theta$}
+
+We can substitute for $\theta$ from Equation \ref{eq:rot-matrix-to-axang} and validate using Equation \ref{eq:axang-to-rot-matrix}.
+
+\begin{equation}
+    \begin{split}
+        \theta &= \arccos \left ( \frac{r_{11} + r_{22} + r_{33} - 1}{2} \right ) \\
+        \Rightarrow \theta &= \arccos \left ( \frac{1 + (1-\cos(\theta)) (n_x^2 - 1) + 1 + (1-\cos(\theta))(n_y^2 - 1) + 1 + (1-\cos(\theta)) (n_z^2 - 1) - 1}{2} \right ) \\
+        \Rightarrow \theta &= \arccos \left ( \frac{2 + (1-\cos(\theta)) (n_x^2 - 1) + (1-\cos(\theta))(n_y^2 - 1) + (1-\cos(\theta)) (n_z^2 - 1)}{2} \right ) \\
+        \Rightarrow \theta &= \arccos \left ( \frac{2 + (1-\cos(\theta))(n_x^2 + n_y^2 + n_z^2 - 3)}{2} \right ) \\
+        \Rightarrow \theta &= \arccos \left ( \frac{2 + (1-\cos(\theta))(-2)}{2} \right ) = \arccos \left ( \frac{2 - 2 + 2 \cos(\theta)}{2} \right ) \\
+        \Rightarrow \theta &= \arccos \left ( \cos(\theta) \right ) \Rightarrow \theta = \theta
+    \end{split}
+\end{equation}
+
+This validates that the formula for $\theta$ in Equation \ref{eq:rot-matrix-to-axang} is correct.
+
+\subsubsection*{Validating $\mathbf{n}$}
+
+We can substitute for $\mathbf{n}$ from Equation \ref{eq:rot-matrix-to-axang} and validate using Equation \ref{eq:axang-to-rot-matrix}.
+
+\begin{equation}
+    \begin{split}
+        \mathbf{n} &= \begin{bmatrix}
+            n_x \\ n_y \\ n_z
+            \end{bmatrix} = \frac{1}{2\sin(\theta)} \begin{bmatrix}
+            r_{32} - r_{23} \\
+            r_{13} - r_{31} \\
+            r_{21} - r_{12}
+            \end{bmatrix} \\
+        \Rightarrow \mathbf{n} &= \frac{1}{2\sin(\theta)} \begin{bmatrix}
+            \left [ n_x \sin(\theta) + (1-\cos(\theta)) n_z n_y \right ] - \left [ -n_x \sin(\theta) + (1-\cos(\theta)) n_y n_z \right ] \\
+            \left [ n_y \sin(\theta) + (1-\cos(\theta)) n_x n_z \right ] - \left [ -n_y \sin(\theta) + (1-\cos(\theta)) n_z n_x \right ]\\
+            \left [ n_z \sin(\theta) + (1-\cos(\theta)) n_y n_x \right ] - \left [ -n_z \sin(\theta) + (1-\cos(\theta)) n_x n_y \right ]
+            \end{bmatrix} \\
+        \Rightarrow \mathbf{n} &= \frac{1}{2\sin(\theta)} \begin{bmatrix}
+            2 n_x \sin(\theta) \\
+            2 n_y \sin(\theta) \\
+            2 n_z \sin(\theta)
+            \end{bmatrix} \\
+        \Rightarrow \mathbf{n} &= \begin{bmatrix}
+            n_x \\ n_y \\ n_z
+            \end{bmatrix}
+    \end{split}
+\end{equation}
+
+This validates that the formula for $\mathbf{n}$ in Equation \ref{eq:rot-matrix-to-axang} is correct.
+
+\subsection[A3.2: Conversion functions]{Conversion functions}
+
+The functions to convert a rotation matrix to axis-angle and axis-angle to rotation matrix are implemented in Appendix \ref{app:a3.2-axang-rotm-conv-code}.

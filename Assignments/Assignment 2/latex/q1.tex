@@ -1,0 +1,118 @@
+% !TeX root = main.tex
+
+\section[A1: Euler ZYX]{Euler ZYX Convention}
+
+Equations for rotation matrices from principal axis rotations
+\begin{equation}
+    \begin{split}
+        \mathbf{R}(\hat{Z}, \theta) = \begin{bmatrix}
+            \cos(\theta) & -\sin(\theta) & 0 \\
+            \sin(\theta) & \cos(\theta) & 0 \\
+            0 & 0 & 1
+            \end{bmatrix} \\
+        \mathbf{R}(\hat{Y}, \theta) = \begin{bmatrix}
+            \cos(\theta) & 0 & \sin(\theta) \\
+            0 & 1 & 0 \\
+            -\sin(\theta) & 0 & \cos(\theta)
+            \end{bmatrix} \\
+        \mathbf{R}(\hat{X}, \theta) = \begin{bmatrix}
+            1 & 0 & 0 \\
+            0 & \cos(\theta) & -\sin(\theta) \\
+            0 & \sin(\theta) & \cos(\theta)
+            \end{bmatrix}
+    \end{split}
+\end{equation}
+
+\subsection[A1.1: Euler to SO(3)]{Converting Euler angles to Rotation Matrix}
+
+The Euler ZYX rotation is given by (consider $s_\theta = \sin(\theta)$ and $c_\theta = \cos(\theta)$)
+
+\begin{equation}
+    \begin{split}
+        \mathbf{R}_{ZYX} \left ( \alpha, \beta, \gamma \right ) & = \mathbf{R}(\hat{Z}, \alpha) \mathbf{R}(\hat{Y}, \beta) \mathbf{R}(\hat{X}, \gamma) \\
+        & = \begin{bmatrix}
+            \cos(\alpha) & -\sin(\alpha) & 0 \\
+            \sin(\alpha) & \cos(\alpha) & 0 \\
+            0 & 0 & 1
+            \end{bmatrix}
+            \begin{bmatrix}
+            \cos(\beta) & 0 & \sin(\beta) \\
+            0 & 1 & 0 \\
+            -\sin(\beta) & 0 & \cos(\beta)
+            \end{bmatrix}
+            \begin{bmatrix}
+            1 & 0 & 0 \\
+            0 & \cos(\gamma) & -\sin(\gamma) \\
+            0 & \sin(\gamma) & \cos(\gamma)
+            \end{bmatrix} \\
+        & = \begin{bmatrix}
+            c_\alpha c_\beta & -s_\alpha c_\gamma + s_\beta s_\gamma c_\alpha & s_\alpha s_\gamma + s_\beta c_\alpha c_\gamma \\
+            s_\alpha c_\beta & s_\alpha s_\beta s_\gamma + c_\alpha c_\gamma & s_\alpha s_\beta c_\gamma - s_\gamma c_\alpha \\
+            -s_\beta & s_\gamma c_\beta & c_\beta c_\gamma
+            \end{bmatrix}
+    \end{split}
+    \label{eq:euzyx-to-rotm}
+\end{equation}
+
+A Python function that can do this is written in Appendix \ref{app:a1.1-eu2rm-code} and given with this document.
+
+\subsection[A1.2: SO(3) to Euler]{Converting Rotation Matrix to Euler angles}
+
+The Equation \ref{eq:euzyx-to-rotm} has to be reversed. The rotation matrix is given as
+
+\begin{equation}
+    \mathrm{R} = \begin{bmatrix}
+        r_{11} & r_{12} & r_{13} \\
+        r_{21} & r_{22} & r_{23} \\
+        r_{31} & r_{32} & r_{33}
+        \end{bmatrix}
+    \nonumber
+\end{equation}
+
+Relating the terms from Equation \ref{eq:euzyx-to-rotm}, we have the following values for 
+
+\begin{itemize}
+    \item $\alpha$ being the angle of rotation about Z axis
+    \item $\beta$ being the angle of rotation about Y axis
+    \item $\gamma$ being the angle of rotation about X axis
+\end{itemize}
+
+In the equation below (in a generic setting)
+
+\begin{equation}
+    \begin{split}
+        \alpha &= \textup{arctan2} \left ( r_{21}, r_{11} \right ) \\
+        \beta &= \textup{arctan2} \left ( -r_{31}, \sqrt{r_{11}^2 + r_{21}^2} \right ) = \textup{arctan2} \left ( -r_{31}, \sqrt{r_{32}^2 + r_{33}^2} \right ) \\
+        \gamma &= \textup{arctan2} \left ( r_{32}, r_{33} \right )
+    \end{split}
+    \label{eq:rotm-to-euzyx-norm}
+\end{equation}
+
+\subsubsection*{Singularity}
+
+If the value of $\beta = \pm 90^{\circ}$, then $r_{21} = r_{11} = r_{32} = r_{33} = 0$. This makes resolving individual $\alpha$ and $\gamma$ impossible. The two cases are described below
+
+\paragraph*{Case 1}
+If the value of $\beta = 90^{\circ}$. The Equation \ref{eq:euzyx-to-rotm} basically becomes
+
+\begin{equation}
+    \mathbf{R}_{ZYX} \left ( \alpha, \beta = \frac{\pi}{2}, \gamma \right ) = \begin{bmatrix}
+        0 & -\sin(\alpha-\gamma) & \cos(\alpha-\gamma) \\
+        0 & \cos(\alpha-\gamma) & \sin(\alpha-\gamma) \\
+        -1 & 0 & 0
+        \end{bmatrix}
+\end{equation}
+
+\paragraph*{Case 2}
+If the value of $\beta = -90^{\circ}$, the Equation \ref{eq:euzyx-to-rotm} becomes
+
+\begin{equation}
+    \mathbf{R}_{ZYX} \left ( \alpha, \beta = -\frac{\pi}{2}, \gamma \right ) = \begin{bmatrix}
+        0 & -\sin(\alpha+\gamma) & -\cos(\alpha+\gamma) \\
+        0 & \cos(\alpha+\gamma) & -\sin(\alpha+\gamma) \\
+        1 & 0 & 0
+        \end{bmatrix}
+\end{equation}
+
+\noindent
+All the equations above are implemented as a Python function, code is presented in Appendix \ref{app:a1.2-rm2eu-code} and given with this document.

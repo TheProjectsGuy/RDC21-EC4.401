@@ -1,0 +1,15 @@
+# Ignore LaTeX intermediary files
+*.aux
+*.fdb_latexmk
+*.fls
+*.lol
+*.lof
+*.toc
+*.log
+*.synctex.gz
+*.synctex
+*.out
+*.pdf
+
+# Include result
+!main.pdf

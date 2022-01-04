@@ -1,0 +1,11 @@
+name: rdc-ec4-401
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - numpy
+  - matplotlib
+  - jupyter
+  - scipy
+  - sympy
+  - pylint
