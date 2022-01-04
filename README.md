@@ -2,9 +2,18 @@
 
 This repository stores all items pertaining to course `Robotics: Dynamics and Control` at IIIT Hyderabad (Monsoon 2021).
 
+- Professor: [Nagamanikandan G.](https://www.iiit.ac.in/people/faculty/Nagamanikandan/)
+
+## Note
+
+[![Attribution-NonCommercial-ShareAlike 4.0 International CC BY-NC-SA 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+This repository is for personal reference only. Please do not copy code for homework (understanding is better than grades). Please adhere to the license [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode). The questions were given as course material and do not adhere to this license. Everything else does.
+
 ## Table of contents
 
 - [Robotics: Dynamics and Control (Monsoon 2021) @ IIITH](#robotics-dynamics-and-control-monsoon-2021--iiith)
+    - [Note](#note)
     - [Table of contents](#table-of-contents)
     - [Assignments](#assignments)
 
