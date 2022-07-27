@@ -1,5 +1,9 @@
 # Robotics: Dynamics and Control (Monsoon 2021) @ IIITH
 
+[Written Notes](https://iiitaphyd-my.sharepoint.com/:f:/g/personal/avneesh_mishra_research_iiit_ac_in/ElgiccZe2RdPo7nwlAic5-wBOg6GzTOJEqUQrgFr3EpFEw?e=sw2n1u)
+
+---
+
 This repository stores all items pertaining to course `Robotics: Dynamics and Control` at IIIT Hyderabad (Monsoon 2021).
 
 - Professor: [Nagamanikandan G.](https://www.iiit.ac.in/people/faculty/Nagamanikandan/)
